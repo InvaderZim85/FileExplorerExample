@@ -33,12 +33,14 @@
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.groupBoxFiles = new System.Windows.Forms.GroupBox();
             this.treeView = new System.Windows.Forms.TreeView();
+            this.imageListTree = new System.Windows.Forms.ImageList(this.components);
             this.panelFilesTop = new System.Windows.Forms.Panel();
             this.buttonBrowse = new System.Windows.Forms.Button();
             this.labelDirectory = new System.Windows.Forms.Label();
             this.textBoxPath = new System.Windows.Forms.TextBox();
             this.groupBoxPreview = new System.Windows.Forms.GroupBox();
             this.textBoxPreview = new System.Windows.Forms.TextBox();
+            this.pictureBoxPreview = new System.Windows.Forms.PictureBox();
             this.groupBoxDetails = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.labelAttributesData = new System.Windows.Forms.Label();
@@ -61,8 +63,12 @@
             this.checkBoxReadOnly = new System.Windows.Forms.CheckBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.pictureBoxPreview = new System.Windows.Forms.PictureBox();
-            this.imageListTree = new System.Windows.Forms.ImageList(this.components);
+            this.tableLayoutPanelFiles = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonExpand = new System.Windows.Forms.Button();
+            this.buttonCollapse = new System.Windows.Forms.Button();
+            this.buttonExport = new System.Windows.Forms.Button();
+            this.panelDetails = new System.Windows.Forms.Panel();
+            this.buttonCopy = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -70,10 +76,12 @@
             this.groupBoxFiles.SuspendLayout();
             this.panelFilesTop.SuspendLayout();
             this.groupBoxPreview.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).BeginInit();
             this.groupBoxDetails.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             this.statusStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).BeginInit();
+            this.tableLayoutPanelFiles.SuspendLayout();
+            this.panelDetails.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer
@@ -97,6 +105,7 @@
             // groupBoxFiles
             // 
             this.groupBoxFiles.Controls.Add(this.treeView);
+            this.groupBoxFiles.Controls.Add(this.tableLayoutPanelFiles);
             this.groupBoxFiles.Controls.Add(this.panelFilesTop);
             this.groupBoxFiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxFiles.Location = new System.Drawing.Point(0, 0);
@@ -114,11 +123,19 @@
             this.treeView.Location = new System.Drawing.Point(3, 46);
             this.treeView.Name = "treeView";
             this.treeView.SelectedImageIndex = 0;
-            this.treeView.Size = new System.Drawing.Size(260, 379);
+            this.treeView.Size = new System.Drawing.Size(260, 351);
             this.treeView.TabIndex = 1;
             this.treeView.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCollapse);
             this.treeView.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterExpand);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
+            // 
+            // imageListTree
+            // 
+            this.imageListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTree.ImageStream")));
+            this.imageListTree.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTree.Images.SetKeyName(0, "Folder.png");
+            this.imageListTree.Images.SetKeyName(1, "FolderOpen.png");
+            this.imageListTree.Images.SetKeyName(2, "Document.png");
             // 
             // panelFilesTop
             // 
@@ -166,9 +183,9 @@
             this.groupBoxPreview.Controls.Add(this.textBoxPreview);
             this.groupBoxPreview.Controls.Add(this.pictureBoxPreview);
             this.groupBoxPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxPreview.Location = new System.Drawing.Point(0, 228);
+            this.groupBoxPreview.Location = new System.Drawing.Point(0, 252);
             this.groupBoxPreview.Name = "groupBoxPreview";
-            this.groupBoxPreview.Size = new System.Drawing.Size(530, 200);
+            this.groupBoxPreview.Size = new System.Drawing.Size(530, 176);
             this.groupBoxPreview.TabIndex = 1;
             this.groupBoxPreview.TabStop = false;
             this.groupBoxPreview.Text = "Preview";
@@ -182,9 +199,20 @@
             this.textBoxPreview.Name = "textBoxPreview";
             this.textBoxPreview.ReadOnly = true;
             this.textBoxPreview.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxPreview.Size = new System.Drawing.Size(524, 181);
+            this.textBoxPreview.Size = new System.Drawing.Size(524, 157);
             this.textBoxPreview.TabIndex = 1;
             this.textBoxPreview.Visible = false;
+            // 
+            // pictureBoxPreview
+            // 
+            this.pictureBoxPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBoxPreview.Location = new System.Drawing.Point(3, 16);
+            this.pictureBoxPreview.Name = "pictureBoxPreview";
+            this.pictureBoxPreview.Size = new System.Drawing.Size(524, 157);
+            this.pictureBoxPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxPreview.TabIndex = 0;
+            this.pictureBoxPreview.TabStop = false;
+            this.pictureBoxPreview.Visible = false;
             // 
             // groupBoxDetails
             // 
@@ -192,7 +220,7 @@
             this.groupBoxDetails.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxDetails.Location = new System.Drawing.Point(0, 0);
             this.groupBoxDetails.Name = "groupBoxDetails";
-            this.groupBoxDetails.Size = new System.Drawing.Size(530, 228);
+            this.groupBoxDetails.Size = new System.Drawing.Size(530, 252);
             this.groupBoxDetails.TabIndex = 0;
             this.groupBoxDetails.TabStop = false;
             this.groupBoxDetails.Text = "Details";
@@ -220,6 +248,7 @@
             this.tableLayoutPanel.Controls.Add(this.labelNameData, 1, 0);
             this.tableLayoutPanel.Controls.Add(this.labelName, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.checkBoxReadOnly, 1, 3);
+            this.tableLayoutPanel.Controls.Add(this.panelDetails, 1, 9);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
@@ -233,8 +262,8 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.Size = new System.Drawing.Size(524, 209);
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tableLayoutPanel.Size = new System.Drawing.Size(524, 233);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // labelAttributesData
@@ -442,24 +471,76 @@
             this.statusStripStatus.Name = "statusStripStatus";
             this.statusStripStatus.Size = new System.Drawing.Size(0, 17);
             // 
-            // pictureBoxPreview
+            // tableLayoutPanelFiles
             // 
-            this.pictureBoxPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBoxPreview.Location = new System.Drawing.Point(3, 16);
-            this.pictureBoxPreview.Name = "pictureBoxPreview";
-            this.pictureBoxPreview.Size = new System.Drawing.Size(524, 181);
-            this.pictureBoxPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxPreview.TabIndex = 0;
-            this.pictureBoxPreview.TabStop = false;
-            this.pictureBoxPreview.Visible = false;
+            this.tableLayoutPanelFiles.ColumnCount = 2;
+            this.tableLayoutPanelFiles.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelFiles.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelFiles.Controls.Add(this.buttonCollapse, 1, 0);
+            this.tableLayoutPanelFiles.Controls.Add(this.buttonExpand, 0, 0);
+            this.tableLayoutPanelFiles.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tableLayoutPanelFiles.Location = new System.Drawing.Point(3, 397);
+            this.tableLayoutPanelFiles.Name = "tableLayoutPanelFiles";
+            this.tableLayoutPanelFiles.RowCount = 2;
+            this.tableLayoutPanelFiles.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelFiles.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelFiles.Size = new System.Drawing.Size(260, 28);
+            this.tableLayoutPanelFiles.TabIndex = 2;
             // 
-            // imageListTree
+            // buttonExpand
             // 
-            this.imageListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTree.ImageStream")));
-            this.imageListTree.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListTree.Images.SetKeyName(0, "Folder.png");
-            this.imageListTree.Images.SetKeyName(1, "FolderOpen.png");
-            this.imageListTree.Images.SetKeyName(2, "Document.png");
+            this.buttonExpand.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonExpand.Location = new System.Drawing.Point(3, 3);
+            this.buttonExpand.Name = "buttonExpand";
+            this.buttonExpand.Size = new System.Drawing.Size(124, 23);
+            this.buttonExpand.TabIndex = 0;
+            this.buttonExpand.Text = "Expand all";
+            this.buttonExpand.UseVisualStyleBackColor = true;
+            this.buttonExpand.Click += new System.EventHandler(this.buttonExpand_Click);
+            // 
+            // buttonCollapse
+            // 
+            this.buttonCollapse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonCollapse.Location = new System.Drawing.Point(133, 3);
+            this.buttonCollapse.Name = "buttonCollapse";
+            this.buttonCollapse.Size = new System.Drawing.Size(124, 23);
+            this.buttonCollapse.TabIndex = 1;
+            this.buttonCollapse.Text = "Collapse all";
+            this.buttonCollapse.UseVisualStyleBackColor = true;
+            this.buttonCollapse.Click += new System.EventHandler(this.buttonCollapse_Click);
+            // 
+            // buttonExport
+            // 
+            this.buttonExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonExport.Location = new System.Drawing.Point(340, 3);
+            this.buttonExport.Name = "buttonExport";
+            this.buttonExport.Size = new System.Drawing.Size(75, 23);
+            this.buttonExport.TabIndex = 19;
+            this.buttonExport.Text = "Export";
+            this.buttonExport.UseVisualStyleBackColor = true;
+            this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
+            // 
+            // panelDetails
+            // 
+            this.panelDetails.Controls.Add(this.buttonCopy);
+            this.panelDetails.Controls.Add(this.buttonExport);
+            this.panelDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelDetails.Location = new System.Drawing.Point(106, 207);
+            this.panelDetails.Margin = new System.Windows.Forms.Padding(0);
+            this.panelDetails.Name = "panelDetails";
+            this.panelDetails.Size = new System.Drawing.Size(418, 33);
+            this.panelDetails.TabIndex = 20;
+            // 
+            // buttonCopy
+            // 
+            this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCopy.Location = new System.Drawing.Point(259, 3);
+            this.buttonCopy.Name = "buttonCopy";
+            this.buttonCopy.Size = new System.Drawing.Size(75, 23);
+            this.buttonCopy.TabIndex = 20;
+            this.buttonCopy.Text = "Copy";
+            this.buttonCopy.UseVisualStyleBackColor = true;
+            this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
             // 
             // FormMain
             // 
@@ -482,12 +563,14 @@
             this.panelFilesTop.PerformLayout();
             this.groupBoxPreview.ResumeLayout(false);
             this.groupBoxPreview.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).EndInit();
             this.groupBoxDetails.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).EndInit();
+            this.tableLayoutPanelFiles.ResumeLayout(false);
+            this.panelDetails.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -528,6 +611,12 @@
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel statusStripStatus;
         private System.Windows.Forms.ImageList imageListTree;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelFiles;
+        private System.Windows.Forms.Button buttonCollapse;
+        private System.Windows.Forms.Button buttonExpand;
+        private System.Windows.Forms.Panel panelDetails;
+        private System.Windows.Forms.Button buttonCopy;
+        private System.Windows.Forms.Button buttonExport;
     }
 }
 

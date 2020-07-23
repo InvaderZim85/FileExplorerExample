@@ -2,8 +2,11 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
+using Timer = System.Timers.Timer;
 
 namespace FileExplorer
 {
@@ -13,11 +16,33 @@ namespace FileExplorer
     public partial class FormMain : Form
     {
         /// <summary>
+        /// The info timer to show an info message in the status strip
+        /// </summary>
+        private readonly Timer _infoTimer = new Timer(TimeSpan.FromSeconds(10).TotalMilliseconds);
+
+        /// <summary>
         /// Creates a new instance of the <see cref="FormMain"/>
         /// </summary>
         public FormMain()
         {
             InitializeComponent();
+
+            // Resets the info message
+            _infoTimer.Elapsed += (sender, e) =>
+            {
+                _infoTimer.Stop();
+                statusStripStatus.Text = "";
+            };
+        }
+
+        /// <summary>
+        /// Shows a info
+        /// </summary>
+        /// <param name="message">The message</param>
+        private void ShowInfo(string message)
+        {
+            statusStripStatus.Text = message;
+            _infoTimer.Start();
         }
 
         /// <summary>
@@ -253,7 +278,7 @@ namespace FileExplorer
             var kbSize = (double) size / 1024;
             switch (size)
             {
-                case var _ when size < 1024d:
+                case var _ when size < 1024:
                     return $"{size:N0} Bytes";
                 case var _ when size >= 1024 && size < Math.Pow(1024, 2):
                     return $"{size / 1024d:N2} KB ({size:N0} Bytes)";
@@ -264,6 +289,54 @@ namespace FileExplorer
                 default:
                     return size.ToString();
             }
+        }
+
+        /// <summary>
+        /// Gets the current details as string
+        /// </summary>
+        /// <returns>The string with the details</returns>
+        private string GetDetails()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("Details");
+            sb.AppendLine($"Name.........: {labelNameData.Text}");
+            sb.AppendLine($"Path.........: {labelPathData.Text}");
+            sb.AppendLine($"Extension....: {labelExtensionData.Text}");
+            sb.AppendLine($"Read only....: {checkBoxReadOnly.Checked}");
+            sb.AppendLine($"Creation date: {labelCreationDateData.Text}");
+            sb.AppendLine($"Last access..: {labelLastAccessData.Text}");
+            sb.AppendLine($"Last write...: {labelLastWriteData.Text}");
+            sb.AppendLine($"Size.........: {labelSizeData.Text}");
+            sb.AppendLine($"Attributes...: {labelAttributesData.Text}");
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Copies the shown details to the clipboard
+        /// </summary>
+        private void CopyDetailsToClipboard()
+        {
+            Clipboard.SetText(GetDetails(), TextDataFormat.Text);
+            ShowInfo("Details copied...");
+        }
+
+        /// <summary>
+        /// Exports the details to the desired file
+        /// </summary>
+        private void ExportDetails()
+        {
+            var dialog = new SaveFileDialog
+            {
+                Title = "Select the desired destination",
+                DefaultExt = ".txt",
+                Filter = "Text file (*.txt)|*.txt"
+            };
+
+            if (dialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            File.WriteAllText(dialog.FileName, GetDetails());
         }
 
         /// <summary>
@@ -343,6 +416,38 @@ namespace FileExplorer
         {
             e.Node.ImageIndex = 0;
             e.Node.SelectedImageIndex = 0;
+        }
+
+        /// <summary>
+        /// Occurs when the user hits the expand all button
+        /// </summary>
+        private void buttonExpand_Click(object sender, EventArgs e)
+        {
+            treeView.ExpandAll();
+        }
+
+        /// <summary>
+        /// Occurs when the user hits the collapse all button
+        /// </summary>
+        private void buttonCollapse_Click(object sender, EventArgs e)
+        {
+            treeView.CollapseAll();
+        }
+
+        /// <summary>
+        /// Occurs when the user hits the copy button
+        /// </summary>
+        private void buttonCopy_Click(object sender, EventArgs e)
+        {
+            CopyDetailsToClipboard();
+        }
+
+        /// <summary>
+        /// Occurs when the user hits the export button
+        /// </summary>
+        private void buttonExport_Click(object sender, EventArgs e)
+        {
+            ExportDetails();
         }
     }
 }
